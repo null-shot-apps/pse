@@ -23,6 +23,22 @@ interface StockBreakout {
     liquiditySweep: boolean;
     priceZone: 'premium' | 'equilibrium' | 'discount';
   };
+  // RSI & MACD
+  rsi: number;
+  macd: {
+    value: number;
+    signal: number;
+    histogram: number;
+  };
+  // Trading Signals
+  signals: {
+    buySignal: boolean;
+    buyReason: string;
+    entryPrice: number;
+    stopLoss: number;
+    takeProfit: number;
+    riskRewardRatio: number;
+  };
 }
 
 interface Notification {
@@ -86,6 +102,20 @@ export default function PSEBreakoutScanner() {
           structureBreak: 'BOS',
           liquiditySweep: false,
           priceZone: 'discount'
+        },
+        rsi: 68.5,
+        macd: {
+          value: 0.85,
+          signal: 0.62,
+          histogram: 0.23
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'RSI bullish momentum + MACD crossover + Bollinger breakout',
+          entryPrice: 32.50,
+          stopLoss: 30.20,
+          takeProfit: 36.80,
+          riskRewardRatio: 1.87
         }
       },
       {
@@ -107,6 +137,20 @@ export default function PSEBreakoutScanner() {
           structureBreak: 'CHoCH',
           liquiditySweep: true,
           priceZone: 'equilibrium'
+        },
+        rsi: 72.3,
+        macd: {
+          value: 1.25,
+          signal: 1.10,
+          histogram: 0.15
+        },
+        signals: {
+          buySignal: false,
+          buyReason: 'RSI overbought - wait for pullback to 142.50 support',
+          entryPrice: 142.50,
+          stopLoss: 139.80,
+          takeProfit: 148.20,
+          riskRewardRatio: 2.11
         }
       },
       {
@@ -128,6 +172,20 @@ export default function PSEBreakoutScanner() {
           structureBreak: 'BOS',
           liquiditySweep: false,
           priceZone: 'discount'
+        },
+        rsi: 65.8,
+        macd: {
+          value: 5.40,
+          signal: 4.20,
+          histogram: 1.20
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Strong MACD histogram + RSI healthy + Wave 3 momentum',
+          entryPrice: 920.00,
+          stopLoss: 900.00,
+          takeProfit: 960.00,
+          riskRewardRatio: 2.00
         }
       }
     ];
@@ -332,6 +390,76 @@ export default function PSEBreakoutScanner() {
                 </div>
               </div>
 
+              {/* RSI & MACD */}
+              <div className="mb-4 p-3 bg-black/30 rounded">
+                <div className="text-xs font-semibold mb-2 text-orange-300">RSI & MACD INDICATORS</div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">RSI (14):</span>
+                    <span className={`font-semibold ${
+                      stock.rsi > 70 ? 'text-red-400' : 
+                      stock.rsi < 30 ? 'text-green-400' : 'text-blue-400'
+                    }`}>
+                      {stock.rsi.toFixed(1)} {stock.rsi > 70 ? '(Overbought)' : stock.rsi < 30 ? '(Oversold)' : '(Neutral)'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">MACD:</span>
+                    <span className={`font-mono ${stock.macd.histogram > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {stock.macd.value.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Signal:</span>
+                    <span className="font-mono text-gray-300">{stock.macd.signal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Histogram:</span>
+                    <span className={`font-mono font-semibold ${stock.macd.histogram > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {stock.macd.histogram > 0 ? '+' : ''}{stock.macd.histogram.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Trading Signals */}
+              <div className={`p-4 rounded-lg border-2 ${
+                stock.signals.buySignal 
+                  ? 'bg-green-500/20 border-green-500' 
+                  : 'bg-yellow-500/20 border-yellow-500'
+              }`}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className={`text-2xl ${stock.signals.buySignal ? '🟢' : '🟡'}`}>
+                    {stock.signals.buySignal ? '🟢' : '🟡'}
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm">
+                      {stock.signals.buySignal ? 'BUY SIGNAL' : 'WAIT FOR ENTRY'}
+                    </div>
+                    <div className="text-xs text-gray-300">{stock.signals.buyReason}</div>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Entry Price:</span>
+                    <span className="font-bold text-white">₱{stock.signals.entryPrice.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Stop Loss:</span>
+                    <span className="font-bold text-red-400">₱{stock.signals.stopLoss.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Take Profit:</span>
+                    <span className="font-bold text-green-400">₱{stock.signals.takeProfit.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-2 border-t border-gray-600">
+                    <span className="text-gray-300">Risk/Reward:</span>
+                    <span className="font-bold text-blue-400">1:{stock.signals.riskRewardRatio.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Volume & Time */}
               <div className="flex justify-between items-center text-sm text-gray-400">
                 <div>
@@ -358,6 +486,9 @@ export default function PSEBreakoutScanner() {
     </div>
   );
 }
+
+
+
 
 
 
