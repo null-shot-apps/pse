@@ -81,9 +81,9 @@ export default function PSEBreakoutScanner() {
   }, []);
 
   const scanForBreakouts = () => {
-    // Filter date range: December 2025 to January 2026
-    const startDate = new Date('2025-12-01');
-    const endDate = new Date('2026-01-31');
+    // Filter date range: Q1 2026 (January - March 2026)
+    const startDate = new Date('2026-01-01');
+    const endDate = new Date('2026-03-31');
     const currentDate = new Date();
     
     // Only scan if within date range
@@ -94,7 +94,8 @@ export default function PSEBreakoutScanner() {
     }
     
     // Mock data - In production, this would call PSE API
-    const mockBreakouts: StockBreakout[] = [
+    // Filter for HIGH YIELD POTENTIAL: Strong buy signals + good risk/reward
+    const allBreakouts: StockBreakout[] = [
       {
         symbol: 'ALI',
         name: 'Ayala Land Inc',
@@ -622,14 +623,23 @@ export default function PSEBreakoutScanner() {
       }
     ];
 
-    setBreakouts(mockBreakouts);
+    // Filter for HIGH YIELD POTENTIAL stocks
+    // Criteria: buySignal=true, riskReward >= 1.8, RSI < 70, strength=strong/moderate
+    const highYieldBreakouts = allBreakouts.filter(stock => 
+      stock.signals.buySignal && 
+      stock.signals.riskRewardRatio >= 1.8 && 
+      stock.rsi < 70 &&
+      (stock.strength === 'strong' || stock.strength === 'moderate')
+    );
+
+    setBreakouts(highYieldBreakouts);
     setLastScanTime(new Date().toLocaleTimeString());
 
     // Add to historical data
-    setHistoricalBreakouts(prev => [...mockBreakouts, ...prev].slice(0, 50));
+    setHistoricalBreakouts(prev => [...highYieldBreakouts, ...prev].slice(0, 50));
 
     // Create notifications for new breakouts
-    mockBreakouts.forEach(breakout => {
+    highYieldBreakouts.forEach(breakout => {
       const notification: Notification = {
         id: `${breakout.symbol}-${Date.now()}`,
         symbol: breakout.symbol,
@@ -667,7 +677,7 @@ export default function PSEBreakoutScanner() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">PSE Breakout Scanner</h1>
             <p className="text-blue-200">Real-time Bollinger Band, Elliott Wave & Smart Money Concepts</p>
-            <p className="text-sm text-yellow-300 mt-1">📅 Tracking Period: December 2025 - January 2026</p>
+            <p className="text-sm text-yellow-300 mt-1">📅 High Yield Potential: Q1 2026 (Jan - Mar)</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -919,6 +929,10 @@ export default function PSEBreakoutScanner() {
     </div>
   );
 }
+
+
+
+
 
 
 
