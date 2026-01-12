@@ -81,6 +81,18 @@ export default function PSEBreakoutScanner() {
   }, []);
 
   const scanForBreakouts = () => {
+    // Filter date range: December 2025 to January 2026
+    const startDate = new Date('2025-12-01');
+    const endDate = new Date('2026-01-31');
+    const currentDate = new Date();
+    
+    // Only scan if within date range
+    if (currentDate < startDate || currentDate > endDate) {
+      setBreakouts([]);
+      setLastScanTime(new Date().toLocaleTimeString());
+      return;
+    }
+    
     // Mock data - In production, this would call PSE API
     const mockBreakouts: StockBreakout[] = [
       {
@@ -655,6 +667,7 @@ export default function PSEBreakoutScanner() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">PSE Breakout Scanner</h1>
             <p className="text-blue-200">Real-time Bollinger Band, Elliott Wave & Smart Money Concepts</p>
+            <p className="text-sm text-yellow-300 mt-1">📅 Tracking Period: December 2025 - January 2026</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -906,6 +919,8 @@ export default function PSEBreakoutScanner() {
     </div>
   );
 }
+
+
 
 
 
