@@ -187,6 +187,426 @@ export default function PSEBreakoutScanner() {
           takeProfit: 960.00,
           riskRewardRatio: 2.00
         }
+      },
+      {
+        symbol: 'SMPH',
+        name: 'SM Prime Holdings',
+        price: 28.75,
+        change: 0.85,
+        changePercent: 3.05,
+        bollingerUpper: 28.50,
+        bollingerMiddle: 27.20,
+        bollingerLower: 25.90,
+        volume: 12500000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        },
+        rsi: 64.2,
+        macd: {
+          value: 0.42,
+          signal: 0.28,
+          histogram: 0.14
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Bollinger breakout + bullish order block + healthy RSI',
+          entryPrice: 28.75,
+          stopLoss: 26.80,
+          takeProfit: 32.50,
+          riskRewardRatio: 1.92
+        }
+      },
+      {
+        symbol: 'JFC',
+        name: 'Jollibee Foods Corp',
+        price: 238.50,
+        change: 5.20,
+        changePercent: 2.23,
+        bollingerUpper: 237.00,
+        bollingerMiddle: 232.50,
+        bollingerLower: 228.00,
+        volume: 3420000,
+        elliottWave: 'Wave 5 - Extension',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'BOS',
+          liquiditySweep: true,
+          priceZone: 'equilibrium'
+        },
+        rsi: 69.8,
+        macd: {
+          value: 2.15,
+          signal: 1.85,
+          histogram: 0.30
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Wave 5 extension + MACD positive + liquidity sweep',
+          entryPrice: 238.50,
+          stopLoss: 230.00,
+          takeProfit: 252.00,
+          riskRewardRatio: 1.59
+        }
+      },
+      {
+        symbol: 'MBT',
+        name: 'Metrobank',
+        price: 58.40,
+        change: 1.80,
+        changePercent: 3.18,
+        bollingerUpper: 58.00,
+        bollingerMiddle: 56.20,
+        bollingerLower: 54.40,
+        volume: 7850000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        },
+        rsi: 66.5,
+        macd: {
+          value: 0.68,
+          signal: 0.45,
+          histogram: 0.23
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Strong breakout + FVG present + Wave 3 momentum',
+          entryPrice: 58.40,
+          stopLoss: 55.50,
+          takeProfit: 64.20,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'TEL',
+        name: 'PLDT Inc',
+        price: 1285.00,
+        change: 25.00,
+        changePercent: 1.98,
+        bollingerUpper: 1280.00,
+        bollingerMiddle: 1250.00,
+        bollingerLower: 1220.00,
+        volume: 1250000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'CHoCH',
+          liquiditySweep: false,
+          priceZone: 'equilibrium'
+        },
+        rsi: 63.2,
+        macd: {
+          value: 8.50,
+          signal: 6.80,
+          histogram: 1.70
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'CHoCH reversal + MACD crossover + RSI neutral',
+          entryPrice: 1285.00,
+          stopLoss: 1245.00,
+          takeProfit: 1365.00,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'AC',
+        name: 'Ayala Corporation',
+        price: 685.00,
+        change: 18.00,
+        changePercent: 2.70,
+        bollingerUpper: 682.00,
+        bollingerMiddle: 665.00,
+        bollingerLower: 648.00,
+        volume: 2180000,
+        elliottWave: 'Wave 5 - Extension',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: true,
+          priceZone: 'discount'
+        },
+        rsi: 67.8,
+        macd: {
+          value: 4.25,
+          signal: 3.10,
+          histogram: 1.15
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Multiple confirmations: FVG + liquidity sweep + Wave 5',
+          entryPrice: 685.00,
+          stopLoss: 660.00,
+          takeProfit: 735.00,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'MEG',
+        name: 'Megaworld Corp',
+        price: 2.48,
+        change: 0.08,
+        changePercent: 3.33,
+        bollingerUpper: 2.46,
+        bollingerMiddle: 2.38,
+        bollingerLower: 2.30,
+        volume: 45600000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'equilibrium'
+        },
+        rsi: 65.5,
+        macd: {
+          value: 0.03,
+          signal: 0.02,
+          histogram: 0.01
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'High volume breakout + BOS confirmation',
+          entryPrice: 2.48,
+          stopLoss: 2.35,
+          takeProfit: 2.74,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'GLO',
+        name: 'Globe Telecom',
+        price: 1820.00,
+        change: 35.00,
+        changePercent: 1.96,
+        bollingerUpper: 1815.00,
+        bollingerMiddle: 1780.00,
+        bollingerLower: 1745.00,
+        volume: 890000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        },
+        rsi: 68.9,
+        macd: {
+          value: 12.50,
+          signal: 9.80,
+          histogram: 2.70
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Strong MACD histogram + FVG + Wave 3 power',
+          entryPrice: 1820.00,
+          stopLoss: 1770.00,
+          takeProfit: 1920.00,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'ICT',
+        name: 'International Container',
+        price: 185.50,
+        change: 6.50,
+        changePercent: 3.63,
+        bollingerUpper: 184.00,
+        bollingerMiddle: 178.00,
+        bollingerLower: 172.00,
+        volume: 5420000,
+        elliottWave: 'Wave 5 - Extension',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: true,
+          priceZone: 'discount'
+        },
+        rsi: 71.2,
+        macd: {
+          value: 1.85,
+          signal: 1.40,
+          histogram: 0.45
+        },
+        signals: {
+          buySignal: false,
+          buyReason: 'RSI overbought - wait for pullback to 180.00',
+          entryPrice: 180.00,
+          stopLoss: 174.00,
+          takeProfit: 195.00,
+          riskRewardRatio: 2.50
+        }
+      },
+      {
+        symbol: 'URC',
+        name: 'Universal Robina Corp',
+        price: 128.40,
+        change: 3.80,
+        changePercent: 3.05,
+        bollingerUpper: 127.50,
+        bollingerMiddle: 123.00,
+        bollingerLower: 118.50,
+        volume: 4250000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        },
+        rsi: 66.3,
+        macd: {
+          value: 1.25,
+          signal: 0.95,
+          histogram: 0.30
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Clean breakout + FVG + optimal RSI level',
+          entryPrice: 128.40,
+          stopLoss: 122.00,
+          takeProfit: 141.20,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'BLOOM',
+        name: 'Bloomberry Resorts',
+        price: 8.95,
+        change: 0.35,
+        changePercent: 4.07,
+        bollingerUpper: 8.85,
+        bollingerMiddle: 8.40,
+        bollingerLower: 7.95,
+        volume: 18500000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'BOS',
+          liquiditySweep: true,
+          priceZone: 'equilibrium'
+        },
+        rsi: 64.8,
+        macd: {
+          value: 0.12,
+          signal: 0.08,
+          histogram: 0.04
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Liquidity sweep + BOS + high volume',
+          entryPrice: 8.95,
+          stopLoss: 8.30,
+          takeProfit: 10.25,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'CNPF',
+        name: 'Century Pacific Food',
+        price: 32.80,
+        change: 1.10,
+        changePercent: 3.47,
+        bollingerUpper: 32.50,
+        bollingerMiddle: 31.00,
+        bollingerLower: 29.50,
+        volume: 6780000,
+        elliottWave: 'Wave 5 - Extension',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        },
+        rsi: 67.5,
+        macd: {
+          value: 0.38,
+          signal: 0.25,
+          histogram: 0.13
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'Wave 5 extension + FVG + strong momentum',
+          entryPrice: 32.80,
+          stopLoss: 30.50,
+          takeProfit: 37.40,
+          riskRewardRatio: 2.00
+        }
+      },
+      {
+        symbol: 'PGOLD',
+        name: 'Puregold Price Club',
+        price: 28.20,
+        change: 0.95,
+        changePercent: 3.49,
+        bollingerUpper: 28.00,
+        bollingerMiddle: 26.80,
+        bollingerLower: 25.60,
+        volume: 9340000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'CHoCH',
+          liquiditySweep: true,
+          priceZone: 'equilibrium'
+        },
+        rsi: 65.9,
+        macd: {
+          value: 0.28,
+          signal: 0.18,
+          histogram: 0.10
+        },
+        signals: {
+          buySignal: true,
+          buyReason: 'CHoCH reversal + liquidity sweep + good volume',
+          entryPrice: 28.20,
+          stopLoss: 26.40,
+          takeProfit: 31.80,
+          riskRewardRatio: 2.00
+        }
       }
     ];
 
@@ -486,6 +906,7 @@ export default function PSEBreakoutScanner() {
     </div>
   );
 }
+
 
 
 
