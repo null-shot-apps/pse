@@ -2,83 +2,285 @@
 
 import { useEffect, useState } from 'react';
 
-const slogans = [
-  "Turn chats into apps",
-  "Prompt. Ship. Repeat.",
-  "Build anything from a chat",
-  "Ideas → Apps, instantly",
-  "From zero to MVP in minutes",
-  "Your cofounder in the command line",
-  "Draft, iterate, deploy",
-  "Ship faster than you can type",
-  "Design in text, deliver in code",
-  "Dream it. Prompt it. Run it.",
-  "Chat-native app building",
-  "From prompt to product",
-  "One prompt, infinite apps",
-  "Stop scaffolding. Start shipping.",
-  "Prototype at the speed of thought",
-  "Make conversations executable"
-];
+interface StockBreakout {
+  symbol: string;
+  name: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  bollingerUpper: number;
+  bollingerMiddle: number;
+  bollingerLower: number;
+  volume: number;
+  elliottWave: string;
+  breakoutTime: string;
+  strength: 'strong' | 'moderate' | 'weak';
+}
 
-export default function Landing() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+interface Notification {
+  id: string;
+  symbol: string;
+  message: string;
+  time: string;
+  type: 'breakout' | 'wave';
+}
 
+export default function PSEBreakoutScanner() {
+  const [breakouts, setBreakouts] = useState<StockBreakout[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [historicalBreakouts, setHistoricalBreakouts] = useState<StockBreakout[]>([]);
+  const [isScanning, setIsScanning] = useState(false);
+  const [lastScanTime, setLastScanTime] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'live' | 'history'>('live');
+
+  // Simulate real-time scanning
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slogans.length);
-        setIsVisible(true);
-      }, 400);
-    }, 2800);
+    const scanInterval = setInterval(() => {
+      // Check if market hours (9:30 AM - 3:30 PM PHT)
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const isMarketHours = (hours === 9 && minutes >= 30) || (hours > 9 && hours < 15) || (hours === 15 && minutes <= 30);
 
-    return () => clearInterval(interval);
+      if (isMarketHours) {
+        setIsScanning(true);
+        scanForBreakouts();
+      } else {
+        setIsScanning(false);
+      }
+    }, 30000); // Scan every 30 seconds
+
+    // Initial scan
+    scanForBreakouts();
+
+    return () => clearInterval(scanInterval);
   }, []);
 
+  const scanForBreakouts = () => {
+    // Mock data - In production, this would call PSE API
+    const mockBreakouts: StockBreakout[] = [
+      {
+        symbol: 'ALI',
+        name: 'Ayala Land Inc',
+        price: 32.50,
+        change: 1.25,
+        changePercent: 4.00,
+        bollingerUpper: 32.00,
+        bollingerMiddle: 30.50,
+        bollingerLower: 29.00,
+        volume: 15420000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong'
+      },
+      {
+        symbol: 'BDO',
+        name: 'BDO Unibank Inc',
+        price: 145.80,
+        change: 3.20,
+        changePercent: 2.24,
+        bollingerUpper: 145.00,
+        bollingerMiddle: 142.50,
+        bollingerLower: 140.00,
+        volume: 8920000,
+        elliottWave: 'Wave 5 - Extension',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'moderate'
+      },
+      {
+        symbol: 'SM',
+        name: 'SM Investments Corp',
+        price: 920.00,
+        change: 15.00,
+        changePercent: 1.66,
+        bollingerUpper: 918.00,
+        bollingerMiddle: 905.00,
+        bollingerLower: 892.00,
+        volume: 2340000,
+        elliottWave: 'Wave 3 - Impulse',
+        breakoutTime: new Date().toLocaleTimeString(),
+        strength: 'strong'
+      }
+    ];
+
+    setBreakouts(mockBreakouts);
+    setLastScanTime(new Date().toLocaleTimeString());
+
+    // Add to historical data
+    setHistoricalBreakouts(prev => [...mockBreakouts, ...prev].slice(0, 50));
+
+    // Create notifications for new breakouts
+    mockBreakouts.forEach(breakout => {
+      const notification: Notification = {
+        id: `${breakout.symbol}-${Date.now()}`,
+        symbol: breakout.symbol,
+        message: `${breakout.symbol} breaking out! +${breakout.changePercent.toFixed(2)}%`,
+        time: new Date().toLocaleTimeString(),
+        type: 'breakout'
+      };
+      setNotifications(prev => [notification, ...prev].slice(0, 10));
+    });
+  };
+
+  const getStrengthColor = (strength: string) => {
+    switch (strength) {
+      case 'strong': return 'text-green-400';
+      case 'moderate': return 'text-yellow-400';
+      case 'weak': return 'text-orange-400';
+      default: return 'text-gray-400';
+    }
+  };
+
+  const getStrengthBg = (strength: string) => {
+    switch (strength) {
+      case 'strong': return 'bg-green-500/20 border-green-500/50';
+      case 'moderate': return 'bg-yellow-500/20 border-yellow-500/50';
+      case 'weak': return 'bg-orange-500/20 border-orange-500/50';
+      default: return 'bg-gray-500/20 border-gray-500/50';
+    }
+  };
+
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-black text-white">
-      {/* Enhanced animated aurora background layers */}
-      <div className="absolute inset-0 bg-aurora-layer-1" />
-      <div className="absolute inset-0 bg-aurora-layer-2" />
-      <div className="absolute inset-0 bg-aurora-layer-3" />
-      
-      {/* Floating particles overlay */}
-      <div className="absolute inset-0 bg-particles" />
-      
-      {/* Main content - centered */}
-      <main className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <h1 className="text-center text-[clamp(28px,6vw,64px)] font-medium tracking-tight mb-4">
-          Turn Chats into Apps
-        </h1>
-        
-        {/* Rotating slogans */}
-        <div className="mt-4 h-8 md:h-10 overflow-hidden flex items-center justify-center">
-          <span
-            className={`inline-block text-center text-[clamp(18px,3vw,32px)] font-light transition-all duration-[400ms] ease-in-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white p-4 md:p-8">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">PSE Breakout Scanner</h1>
+            <p className="text-blue-200">Real-time Bollinger Band & Elliott Wave Analysis</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${isScanning ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+              <span className="text-sm">{isScanning ? 'Scanning' : 'Market Closed'}</span>
+            </div>
+            {lastScanTime && (
+              <div className="text-sm text-blue-200">
+                Last scan: {lastScanTime}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Notifications Bar */}
+        {notifications.length > 0 && (
+          <div className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-4 mb-6">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+              Recent Alerts
+            </h3>
+            <div className="space-y-1">
+              {notifications.slice(0, 3).map(notif => (
+                <div key={notif.id} className="text-sm flex justify-between items-center">
+                  <span className="font-medium">{notif.message}</span>
+                  <span className="text-blue-300 text-xs">{notif.time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setActiveTab('live')}
+            className={`px-6 py-2 rounded-lg font-medium transition-all ${
+              activeTab === 'live'
+                ? 'bg-blue-500 text-white'
+                : 'bg-slate-800/50 text-blue-200 hover:bg-slate-800'
             }`}
           >
-            {slogans[currentIndex]}
-          </span>
-        </div>
-      </main>
-      
-      {/* Start Prompting arrow pointing left - bottom left */}
-      <div className="absolute left-6 md:left-8 bottom-[5%] z-20 flex items-center gap-3 arrow-point-left">
-        <div className="flex items-center gap-2 text-white/80 font-medium text-sm md:text-base">
-          <svg 
-            className="w-5 h-5 md:w-6 md:h-6 animate-bounce-horizontal" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
+            Live Breakouts ({breakouts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`px-6 py-2 rounded-lg font-medium transition-all ${
+              activeTab === 'history'
+                ? 'bg-blue-500 text-white'
+                : 'bg-slate-800/50 text-blue-200 hover:bg-slate-800'
+            }`}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span>Start prompting</span>
+            History ({historicalBreakouts.length})
+          </button>
         </div>
+
+        {/* Breakouts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          {(activeTab === 'live' ? breakouts : historicalBreakouts).map((stock, index) => (
+            <div
+              key={`${stock.symbol}-${index}`}
+              className={`${getStrengthBg(stock.strength)} border rounded-lg p-5 hover:scale-105 transition-transform`}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-xl font-bold">{stock.symbol}</h3>
+                  <p className="text-sm text-gray-300">{stock.name}</p>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${getStrengthColor(stock.strength)} bg-black/30`}>
+                  {stock.strength.toUpperCase()}
+                </div>
+              </div>
+
+              {/* Price Info */}
+              <div className="mb-4">
+                <div className="text-3xl font-bold mb-1">₱{stock.price.toFixed(2)}</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-400 font-semibold">
+                    +₱{stock.change.toFixed(2)} (+{stock.changePercent.toFixed(2)}%)
+                  </span>
+                </div>
+              </div>
+
+              {/* Bollinger Bands */}
+              <div className="mb-4 p-3 bg-black/30 rounded">
+                <div className="text-xs font-semibold mb-2 text-blue-300">BOLLINGER BANDS (20, 2)</div>
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Upper:</span>
+                    <span className="font-mono">₱{stock.bollingerUpper.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Middle:</span>
+                    <span className="font-mono">₱{stock.bollingerMiddle.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Lower:</span>
+                    <span className="font-mono">₱{stock.bollingerLower.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Elliott Wave */}
+              <div className="mb-4 p-3 bg-black/30 rounded">
+                <div className="text-xs font-semibold mb-2 text-purple-300">ELLIOTT WAVE</div>
+                <div className="text-sm font-medium">{stock.elliottWave}</div>
+              </div>
+
+              {/* Volume & Time */}
+              <div className="flex justify-between items-center text-sm text-gray-400">
+                <div>
+                  <span className="text-xs">Volume:</span>
+                  <div className="font-mono">{(stock.volume / 1000000).toFixed(2)}M</div>
+                </div>
+                <div className="text-xs">
+                  {stock.breakoutTime}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {activeTab === 'live' && breakouts.length === 0 && (
+          <div className="text-center py-16 bg-slate-800/30 rounded-lg">
+            <div className="text-6xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold mb-2">No Active Breakouts</h3>
+            <p className="text-gray-400">Scanner is monitoring all PSE stocks...</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
