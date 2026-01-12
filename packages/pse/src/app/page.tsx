@@ -15,6 +15,14 @@ interface StockBreakout {
   elliottWave: string;
   breakoutTime: string;
   strength: 'strong' | 'moderate' | 'weak';
+  // Smart Money Concepts
+  smc: {
+    orderBlock: 'bullish' | 'bearish' | 'none';
+    fairValueGap: boolean;
+    structureBreak: 'BOS' | 'CHoCH' | 'none';
+    liquiditySweep: boolean;
+    priceZone: 'premium' | 'equilibrium' | 'discount';
+  };
 }
 
 interface Notification {
@@ -71,7 +79,14 @@ export default function PSEBreakoutScanner() {
         volume: 15420000,
         elliottWave: 'Wave 3 - Impulse',
         breakoutTime: new Date().toLocaleTimeString(),
-        strength: 'strong'
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        }
       },
       {
         symbol: 'BDO',
@@ -85,7 +100,14 @@ export default function PSEBreakoutScanner() {
         volume: 8920000,
         elliottWave: 'Wave 5 - Extension',
         breakoutTime: new Date().toLocaleTimeString(),
-        strength: 'moderate'
+        strength: 'moderate',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: false,
+          structureBreak: 'CHoCH',
+          liquiditySweep: true,
+          priceZone: 'equilibrium'
+        }
       },
       {
         symbol: 'SM',
@@ -99,7 +121,14 @@ export default function PSEBreakoutScanner() {
         volume: 2340000,
         elliottWave: 'Wave 3 - Impulse',
         breakoutTime: new Date().toLocaleTimeString(),
-        strength: 'strong'
+        strength: 'strong',
+        smc: {
+          orderBlock: 'bullish',
+          fairValueGap: true,
+          structureBreak: 'BOS',
+          liquiditySweep: false,
+          priceZone: 'discount'
+        }
       }
     ];
 
@@ -147,7 +176,7 @@ export default function PSEBreakoutScanner() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">PSE Breakout Scanner</h1>
-            <p className="text-blue-200">Real-time Bollinger Band & Elliott Wave Analysis</p>
+            <p className="text-blue-200">Real-time Bollinger Band, Elliott Wave & Smart Money Concepts</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -257,6 +286,52 @@ export default function PSEBreakoutScanner() {
                 <div className="text-sm font-medium">{stock.elliottWave}</div>
               </div>
 
+              {/* Smart Money Concepts */}
+              <div className="mb-4 p-3 bg-black/30 rounded">
+                <div className="text-xs font-semibold mb-2 text-cyan-300">SMART MONEY CONCEPTS</div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Order Block:</span>
+                    <span className={`font-semibold ${
+                      stock.smc.orderBlock === 'bullish' ? 'text-green-400' : 
+                      stock.smc.orderBlock === 'bearish' ? 'text-red-400' : 'text-gray-400'
+                    }`}>
+                      {stock.smc.orderBlock === 'none' ? 'None' : stock.smc.orderBlock.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Fair Value Gap:</span>
+                    <span className={stock.smc.fairValueGap ? 'text-green-400' : 'text-gray-400'}>
+                      {stock.smc.fairValueGap ? '✓ Present' : 'None'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Structure:</span>
+                    <span className={`font-semibold ${
+                      stock.smc.structureBreak === 'BOS' ? 'text-green-400' : 
+                      stock.smc.structureBreak === 'CHoCH' ? 'text-yellow-400' : 'text-gray-400'
+                    }`}>
+                      {stock.smc.structureBreak === 'none' ? 'None' : stock.smc.structureBreak}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Liquidity Sweep:</span>
+                    <span className={stock.smc.liquiditySweep ? 'text-yellow-400' : 'text-gray-400'}>
+                      {stock.smc.liquiditySweep ? '⚡ Detected' : 'None'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">Price Zone:</span>
+                    <span className={`font-semibold ${
+                      stock.smc.priceZone === 'discount' ? 'text-green-400' : 
+                      stock.smc.priceZone === 'premium' ? 'text-red-400' : 'text-blue-400'
+                    }`}>
+                      {stock.smc.priceZone.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* Volume & Time */}
               <div className="flex justify-between items-center text-sm text-gray-400">
                 <div>
@@ -283,4 +358,8 @@ export default function PSEBreakoutScanner() {
     </div>
   );
 }
+
+
+
+
 
